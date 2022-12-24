@@ -1163,3 +1163,26 @@ a {
   color: var(--color-main);
   font-weight: 1.4rem;
 }
+
+.dropdown {
+  min-width: 15em;
+  position: relative;
+  margin: 2em;
+}
+
+.dropdown *{
+  box-sizing: border-box;
+}
+
+.select {
+  background: #2a2f3b;
+  color: #fff;
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+  border: 2px #2a2f3b solid;
+  border-radius: 0.5em;
+  padding: 1em;
+  cursor: pointer;
+  transition: background 0.3s;
+}
