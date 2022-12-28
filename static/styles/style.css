@@ -728,7 +728,7 @@ a {
 
 /*==============================
 =>  Activities
-================================*/
+================================
 
 .activities {
   background: var(--color-dark);
@@ -786,7 +786,7 @@ a {
 
 .roomListRoom__actions svg {
   fill: var(--color-light-gray);
-}
+}*/
 
 /*==============================
 =>  Create Room

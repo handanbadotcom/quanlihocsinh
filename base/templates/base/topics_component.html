@@ -32,18 +32,18 @@
     /* Fixed sidenav, full height */
     .sidenav {
       height: 100%;
-      width: 200px;
+      width: 300px;
       z-index: 1;
       top: 0;
       left: 0;
       overflow-x: hidden;
       padding-top: 20px;
-      line-height: 3;
+      line-height: 1;
     }
     
     /* Style the sidenav links and the dropdown button */
     .sidenav a, .dropdown-btn {
-      padding: 6px 8px 6px 16px;
+      padding: 50px 8px 6px 16px;
       text-decoration: none;
       font-size: 20px;
       color: #818181;
@@ -98,6 +98,7 @@
       <i class="fa fa-caret-down"></i>
     </button>
     <div class="dropdown-container">
+        
       <a href="{% url 'TiepnhanHS' %}">Tiếp nhận học sinh</a>
     </div>
     <button class="dropdown-btn">Thông tin chi tiết 
