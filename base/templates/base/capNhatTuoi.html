@@ -1,10 +1,12 @@
 {% extends 'main.html' %}
 {% block content %}
-   <main class = 'auth layout'>
-    <div class = 'layout__body'>
-        <div class = 'layout__box'>
-            <div class = 'layout__boxHeader'> 
-                <div class = ' layout__boxTitle2 '>
+  
+<main class="create-room layout">
+    <div class="container">
+      {% include 'base/topics_component.html' %}
+      <div class="layout__box">
+        <div class="layout__boxHeader">
+          <div class="layout__boxTitle">
                     <a href="{% url 'quanlidotuoi' %}">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32"
                             viewBox="0 0 32 32">
@@ -14,50 +16,44 @@
                             </path>
                         </svg>
                     </a>
-
-                </div>
-                <div class = 'layout__boxTitle'>
                     <h3>Cập nhật độ tuổi</h3>
                 </div>
             </div>
-            <form role="form" method="POST" enctype="multipart/form-data" class="col-lg-6">
-                {% csrf_token %}
-                
-                    {% for field in form  %}
-                        {% if field == form.year %}
-                            <div class="form__group">
-                                <h3>Năm:</h3>
-                                {{form.year}}
-                                
-                            </div>
-                            <br>
-                        {% elif field == form.min_age %}
-                            <div class="form__group">
-                                <h3>Tuổi tối thiểu:</h3>
-                                {{form.min_age}}
-                            </div>
-                            <br>
-                        {% elif field == form.max_age %}
-                            <div class="form__group">
-                                <h3>Tuổi tối đa:</h3>
-                                {{form.max_age}}
-                            </div>
-                            <br>
-                        {% else %}
-                            <div class="disable">
-                                {{field}}
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                    <div class="form__group" style="text-align:center">
-                        
-                            <button type="submit" onclick="return confirm('Xác nhận cập nhật tuổi ?')" class="btn btn--main " style="width: 25%; text-align: center;">
-                                <h3>Cập nhật</h3>
-                            
+            <div class="layout__body">
+                <form  method="POST" action="" class="form">
+                    {% csrf_token %}
+                        {% for field in form  %}
+                            {% if field == form.year %}
+                                <div class="form__group">
+                                    <label>Năm:</label>
+                                    {{form.year}}
+                                    
+                                </div>
+                                <br>
+                            {% elif field == form.min_age %}
+                                <div class="form__group">
+                                    <label>Tuổi tối thiểu:</label>
+                                    {{form.min_age}}
+                                </div>
+                                <br>
+                            {% elif field == form.max_age %}
+                                <div class="form__group">
+                                    <label>Tuổi tối đa:</label>
+                                    {{form.max_age}}
+                                </div>
+                                <br>
+                            {% else %}
+                                <div class="disable">
+                                    {{field}}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                        <div class="form__action" style="text-align:center">
+                                <button type="submit" onclick="return confirm('Xác nhận cập nhật tuổi ?')" class="btn btn--main" >
+                                    <label>Cập nhật</label>  
                         </div>
-                    </div>
-                
-            </form>
+                </form>
+            </div>
         </div>
     </div>
    </main>
