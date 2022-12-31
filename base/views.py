@@ -75,6 +75,61 @@ def TiepnhanHS(request):
     context = {'form':form}
     return render(request, 'base/TiepnhanHS.html', context)
 
+def searchStudent(request):
+    message = None
+    student = None
+    avg = []
+    
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        className = request.POST.get('class')
+        classRoom = LOPHOC.objects.get(TENLOP=className)
+        
+        try:
+            student = HOCSINH.objects.get(HOTEN=name, LOPHOC=classRoom)
+        except:
+            message = 'Student does not exist!'
+        i = 1
+        while i <= 2:
+            iSemesterGrades = Grade.objects.filter(student=student, semester=i)
+            print(iSemesterGrades)
+            iSemesterAVGs = []
+            i+=1
+            for subject in iSemesterGrades:
+                iSemesterAVGs.append(subject.AVG)
+            avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
+    
+    
+    context = {'student': student, 'message': message, 'avg': avg}
+    return render(request, 'base/search_student.html', context)
+
+def receiveTranscripts(request):
+    message = None
+    classRoom = None
+    students = []
+    grades = []
+    
+    if request.method == 'POST':
+        className = request.POST.get('class')
+        subject = request.POST.get('subject')
+        semester = request.POST.get('semester')
+        
+        try:
+            classRoom = LOPHOC.objects.get(TENLOP=className)
+        except:
+            message = 'Class does not exist!'
+            
+        students = HOCSINH.objects.filter(LOPHOC=classRoom)
+        subject = Subject.objects.get(name=subject)
+        
+        for student in students:
+            grade = Grade.objects.get(student=student, subject=subject, semester=semester)
+            grades.append(grade)
+    
+    context = {'message': message, 'students': students, 'grades': grades}
+    return render(request, 'base/receive_transcripts.html', context)
+    
+
 
 def quanlidotuoi(request):
     age = Age.objects.all()

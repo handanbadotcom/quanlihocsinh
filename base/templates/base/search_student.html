@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<!--<style>
+    .search-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+</style>-->
+<div class="search-container">
+    <div>
+        {% include 'base/topics_component.html' %}
+    </div>
+    
+    <div>
+        <h3>Tra cứu học sinh</h3>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="text" id="name" name="name" placeholder="Tên học sinh...">
+            <input type="text" id="class" name="class" placeholder="Lớp">
+            <input type="submit" value="Tra cứu">
+            {% if message is None %}
+            <table>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ tên</th>
+                    <th>Ngày sinh</th>
+                    <th>Lớp</th>
+                    <th>TB HK1</th>
+                    <th>TB HK2</th>
+                </tr>
+                <tr>
+                    <td>{{student.id}}</td>
+                    <td>{{student.HOTEN}}</td>
+                    <td>{{student.NGAYSINH|date:"d/m/Y"}}</td>
+                    <td>{{student.LOPHOC.TENLOP}}</td>
+    
+                    {% for semester in avg %}
+                    <td>{{semester}}</td>
+                    {% endfor %}
+                </tr>
+            </table>
+            {% else %}
+            <p>Error: {{message}}</p>
+            {% endif %}
+        </form>
+    </div>
+</div>
+
+{% endblock content %}
