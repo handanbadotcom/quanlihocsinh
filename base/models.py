@@ -23,3 +23,12 @@ class HOCSINH(models.Model):
 
     def __str__(self):
         return self.HOTEN
+
+
+class Age(models.Model):
+    year = models.CharField(max_length=200, unique=True)
+    max_age = models.IntegerField(null=False)
+    min_age = models.IntegerField(null=False)
+
+    def __str__(self):
+        return self.year

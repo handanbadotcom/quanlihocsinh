@@ -65,9 +65,10 @@ a {
 /*========== components ==========*/
 .container {
   max-width: 120rem;
-  width: 90%;
+  width: 100%;
   margin: auto;
 }
+
 
 .btn {
   background-color: transparent;
@@ -435,6 +436,33 @@ a {
   overflow: hidden;
 }
 
+.layout__box2 {
+  width: 90%;
+  max-width: 100rem;
+  min-height: 20rem;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -46%);
+  background-color: var(--color-dark);
+  border-radius: 1rem;
+  box-shadow: 1px 1px 6px 3px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+table, td, th {
+  border: 1px solid black;
+}
+
+th,td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 50px;
+  padding-right: 50px;
+  text-align: center; 
+}
+
+
 .layout__boxHeader {
   display: flex;
   padding: 1.5rem;
@@ -445,6 +473,13 @@ a {
   display: flex;
   gap: 1.5rem;
   align-items: center;
+}
+
+.layout__boxTitle2 {
+  margin-left: -40%;
+  padding-left: 33px;
+  padding-right: 115px;
+ align-items: center;
 }
 
 .layout__boxTitle h3 {
@@ -1186,3 +1221,4 @@ a {
   cursor: pointer;
   transition: background 0.3s;
 }
+
