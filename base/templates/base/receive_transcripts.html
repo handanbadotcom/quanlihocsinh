@@ -1,0 +1,53 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<style>
+    .search-container{
+        display: grid;
+        grid-template-columns: 1fr 3fr;
+    }
+</style>
+<div class="search-container">
+    <div>
+        {% include 'base/topics_component.html' %}
+    </div>
+    <div>
+        <h1>Nhận bảng điểm môn</h1>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="text" id="class" name="class" placeholder="Lớp">
+            <input type="text" id="subject" name="subject" placeholder="Môn">
+            <input type="int" id="semester" name="semester" placeholder="Học kỳ">
+
+            <input type="submit" value="Tra cứu">
+            {% if message is None %}
+            <table>
+                <tr>
+                    <th>STT</th>
+                    <th>Họ tên</th>
+                    <th>Điểm 15'</th>
+                    <th>Điểm 1 tiết</th>
+                    <th>Điểm cuối HK</th>
+                </tr>
+                {% for student in students %}            
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{student}}</td>
+                    {% for grade in grades %}
+                        {% if grade.student == student %}
+                        <td>{{grade.gr15m}}</td>
+                        <td>{{grade.gr45m}}</td>
+                        <td>{{grade.grExam}}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+
+            </table>
+            {% else %}
+            <p>Error: {{message}}</p>
+            {% endif %}
+        </form>
+    </div>
+</div>
+{% endblock content %}
