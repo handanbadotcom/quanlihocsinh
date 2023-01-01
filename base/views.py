@@ -209,3 +209,44 @@ def themTuoi(request):
             messages.error(request, "Lỗi định dạng")
     return render(request, 'base/themTuoi.html', context)
 
+
+
+semester = 2
+
+def nienkhoa(request):
+    form = YearForm()
+    age = Age.objects.all()
+    context = {
+        'form': form,
+        'age': age
+    }
+    return render(request, 'base/nienkhoa.html', context=context)
+
+
+
+def lapDSlop(request, age_id):
+    lophoc = LOPHOC.objects.all
+    hs = HOCSINH.objects.all
+    if request.method == 'POST':
+        usernames = request.POST.getlist('username_class')
+        cl = request.POST.get('TENLOP')
+        class_list = LOPHOC.objects.all()
+        for lop in class_list:
+            if lop.TENLOP == cl:
+                studentsInClass = HOCSINH.objects.filter(lop__TENLOP=cl)
+                if lop.max_number >= (len(studentsInClass) + len(usernames)):
+                    for username in usernames:
+                        student = HOCSINH.objects.get(user__username=username)
+                        student.LOPHOC.add(lop)
+                        student.save()
+                    messages.success(request, "Thêm thành công")
+                    return redirect(reverse('lapDSLop', kwargs={'age_id': age_id}))
+                else:
+                    messages.success(request, "Số lượng học sinh vượt quá qui định")
+    context = {
+        'students': hs,
+        'lop': lophoc
+    }
+    return render(request, 'base/lapDSlop.html', context=context)
+
+
