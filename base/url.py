@@ -13,5 +13,7 @@ urlpatterns = [
     path("quanlidotuoi/capnhat/<int:age_id>", views.capNhatTuoi, name='capNhatTuoi'),
     path("quanlidotuoi/delete/<int:age_id>", views.xoaTuoi, name='xoaTuoi'),
     path("age/add", views.themTuoi, name='themTuoi'),
-
+    path("nienkhoa/", views.nienkhoa, name='nienkhoa'),
+    path("lapdanhsachlop/<int:age_id>", views.lapDSlop, name='lapDSlop')
+    
 ]
