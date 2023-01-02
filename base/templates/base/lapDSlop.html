@@ -2,7 +2,8 @@
 {% block content %}
     <main class = 'auth layout'>
         <div class = 'container'>
-            <div class = 'layout__box2'>
+            {% include 'base/topics_component.html' %}
+            <div class = 'layout__box'>
                 <div class = 'layout__boxHeader'>
 
                     <div class = 'layout__boxTitle'>
@@ -10,19 +11,18 @@
                     </div>
                 </div>
                 <div class = 'layout__body'>
-                    <form method="POST">
+                    <form class="form" method="POST">
                         {% csrf_token %}
                         
-                        <h3>Lớp</h3>
-                                   
+                        <label>Lớp</label>           
                          <select name="lop" id="lop">
                             {% for lop in lophoc %}
                                <option value="{{lop}}">lop</option>
                             {%endfor%}
                          </select>
                                 
-                        
-                        <table class="center">
+                        <div class="threads scroll">
+                        <table class="center" style="width: 100%">
                             <tr>
                                 <th>STT</th>
                                 <th>Họ tên</th>
@@ -51,6 +51,8 @@
                                 {% endfor %}
                             
                         </table>
+                        </div>
+
                         <div class="form__group">
                             <button type="submit" class="btn btn--main" style="width: 25%;">
                                 Thêm học sinh
