@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .form import *
 from django.urls import reverse, reverse_lazy
+from django.db.models import Q
 
 
 # Create your views here.
@@ -225,28 +226,28 @@ def nienkhoa(request):
 
 
 def lapDSlop(request, age_id):
-    lophoc = LOPHOC.objects.all
-    hs = HOCSINH.objects.all
+    lophoc = LOPHOC.objects.all()
+    hs = HOCSINH.objects.all()
     if request.method == 'POST':
-        usernames = request.POST.getlist('username_class')
-        cl = request.POST.get('TENLOP')
+        usernames = request.POST.getlist('HOTEN')
+        cl = request.POST.get('lop')
         class_list = LOPHOC.objects.all()
-        for lop in class_list:
-            if lop.TENLOP == cl:
-                studentsInClass = HOCSINH.objects.filter(lop__TENLOP=cl)
-                if lop.max_number >= (len(studentsInClass) + len(usernames)):
-                    for username in usernames:
-                        student = HOCSINH.objects.get(user__username=username)
-                        student.LOPHOC.add(lop)
-                        student.save()
+        print(usernames)
+        studentsInClass = HOCSINH.objects.filter(LOPHOC__TENLOP=cl)
+        LOP = LOPHOC.objects.get(TENLOP=cl)
+        if LOP.SISO >= (len(studentsInClass) + len(usernames)):
+           for username in usernames:
+                    student = HOCSINH.objects.get(HOTEN=username)
+                    student.LOPHOC=LOP
+                    student.save()
                     messages.success(request, "Thêm thành công")
-                    return redirect(reverse('lapDSLop', kwargs={'age_id': age_id}))
-                else:
+                   # return redirect(reverse('lapDSLop', kwargs={'age_id': age_id}))
+        else:
                     messages.success(request, "Số lượng học sinh vượt quá qui định")
+
+
     context = {
         'students': hs,
         'lop': lophoc
     }
     return render(request, 'base/lapDSlop.html', context=context)
-
-
