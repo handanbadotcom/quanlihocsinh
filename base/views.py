@@ -7,7 +7,10 @@ from django.contrib.auth.forms import UserCreationForm
 from .form import *
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
-
+from .models import  User, HOCSINH, LOPHOC, MONHOC
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from .form import HocSinhForm, ClassForm, SubjectForm
 
 # Create your views here.
 
@@ -121,7 +124,7 @@ def receiveTranscripts(request):
             message = 'Class does not exist!'
             
         students = HOCSINH.objects.filter(LOPHOC=classRoom)
-        subject = Subject.objects.get(name=subject)
+        subject = MONHOC.objects.get(name=subject)
         
         for student in students:
             grade = Grade.objects.get(student=student, subject=subject, semester=semester)
@@ -251,3 +254,123 @@ def lapDSlop(request, age_id):
         'lop': lophoc
     }
     return render(request, 'base/lapDSlop.html', context=context)
+
+# Class setting -----------
+def class_setting(request):
+    form = ClassForm()
+    classInfo = LOPHOC.objects.all().values()
+
+    if request.method=='POST':
+        LOPHOC.objects.create(
+            TENLOP=request.POST.get('TENLOP'),
+            SISO=request.POST.get('SISO'),
+            NIENKHOA=request.POST.get('NIENKHOA'),
+        )
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classInfo':classInfo,
+        }
+
+    return render(request, 'base/class_setting.html',context)
+
+def class_setting_delete(request, pk):
+    form = ClassForm()
+    classRoom = LOPHOC.objects.filter(id=pk).values()
+    classList = LOPHOC.objects.all().values()
+
+    if request.method=='POST':
+        LOPHOC.objects.get(id=pk).delete()
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classRoom':classRoom,
+        'classList':classList,
+        }
+
+    return render(request, 'base/class_setting_delete.html',context)
+
+def class_setting_update(request, pk):
+    form = SubjectForm()
+    classRoom = LOPHOC.objects.get(id=pk)
+    classList = LOPHOC.objects.all().values()
+
+    if request.method=='POST':
+        name = request.POST['TENLOP']
+        number = request.POST['SISO']
+        year = request.POST['NIENKHOA']
+        classRoom = LOPHOC.objects.get(id=pk)    
+        classRoom.TENLOP = name
+        classRoom.SISO = number
+        classRoom.NIENKHOA = year
+        classRoom.save()    
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classRoom':classRoom,
+        'classList':classList,
+        }
+
+    return render(request, 'base/class_setting_update.html',context)
+
+# Subject setting -----------
+def subject_setting(request):
+    form = SubjectForm()
+    subjectInfo = MONHOC.objects.all().values()
+
+    if request.method=='POST':
+        MONHOC.objects.create(
+            TENMONHOC=request.POST.get('TENMONHOC'),
+            DIEMCHUAN=request.POST.get('DIEMCHUAN'),
+        )
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'classInfo':subjectInfo,
+        }
+
+    return render(request, 'base/subject_setting.html',context)
+
+def subject_setting_delete(request, pk):
+    form = SubjectForm()
+    subject = MONHOC.objects.filter(id=pk).values()
+    subjectList = MONHOC.objects.all().values()
+
+    if request.method=='POST':
+        MONHOC.objects.get(id=pk).delete()
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'subject':subject,
+        'subjectList':subjectList,
+        }
+
+    return render(request, 'base/subject_setting_delete.html',context)
+
+def subject_setting_update(request, pk):
+    form = SubjectForm()
+    subject = MONHOC.objects.get(id=pk)
+    subjectList = MONHOC.objects.all().values()
+
+    if request.method=='POST':
+        name = request.POST['TENMONHOC']
+        marks = request.POST['DIEMCHUAN']
+        subject = MONHOC.objects.get(id=pk)    
+        subject.TENMONHOC = name
+        subject.DIEMCHUAN = marks
+        subject.save()    
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'subject':subject,
+        'subjectList':subjectList,
+        }
+
+    return render(request, 'base/subject_setting_update.html',context)
+

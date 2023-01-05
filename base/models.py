@@ -2,11 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.deletion import CASCADE
 
+from django.core.validators import MaxValueValidator, MinValueValidator 
 # Create your models here.
 
 
 class LOPHOC(models.Model):
     TENLOP = models.CharField(max_length=30, null=False)
+    SISO = models.IntegerField(null=False, validators=[MinValueValidator(0), MaxValueValidator(1000)])
+    NIENKHOA = models.CharField(max_length=10, null=False, validators=[MinValueValidator(1900), MaxValueValidator(3000)])      
+    def __str__(self):
+        return self.TENLOP  
+
     SISO = models.IntegerField(null=False)
     NIENKHOA = models.CharField(max_length=10, null=False)
     
@@ -26,16 +32,21 @@ class HOCSINH(models.Model):
 
     def __str__(self):
         return self.HOTEN
+
+#   class Subject(models.Model):
+#   name = models.CharField(max_length=200)
+#    def __str__(self):
+#        return self.name
     
-class Subject(models.Model):
-    name = models.CharField(max_length=200)
+class MONHOC(models.Model):
+    TENMONHOC = models.CharField(max_length=200)
+    DIEMCHUAN = models.FloatField(null=False, default=5, validators=[MinValueValidator(0), MaxValueValidator(10)])
     def __str__(self):
-        return self.name
-    
+        return self.TENMONHOC
+
 class Grade(models.Model):
     student = models.ForeignKey(HOCSINH, on_delete=models.SET_NULL, null=True)
-    subject = models.ForeignKey(Subject, on_delete=models.SET_NULL, null=True)
-    
+    subject = models.ForeignKey(MONHOC, on_delete=models.SET_NULL, null=True)
     gr15m = models.FloatField(default=0)
     gr45m = models.FloatField(default=0)
     grExam = models.FloatField(default=0)
@@ -54,3 +65,5 @@ class Age(models.Model):
 
     def __str__(self):
         return self.year
+
+

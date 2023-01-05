@@ -428,7 +428,7 @@ a {
   height: 48rem;
   position: absolute;
   top: 50%;
-  left: 50%;
+  left: 60%;
   transform: translate(-50%, -46%);
   background-color: var(--color-dark);
   border-radius: 1rem;
