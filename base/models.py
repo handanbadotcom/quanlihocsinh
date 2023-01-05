@@ -34,6 +34,7 @@ class HOCSINH(models.Model):
 
 class Subject(models.Model):
    name = models.CharField(max_length=200)
+   DIEMCHUAN = models.FloatField(null=False, default=5, validators=[MinValueValidator(0), MaxValueValidator(10)])
    def __str__(self):
         return self.name
         
