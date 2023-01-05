@@ -1,10 +1,10 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .models import  User, HOCSINH, LOPHOC
+from .models import  User, HOCSINH, LOPHOC, MONHOC
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from .form import HocSinhForm, LopHocForm
+from .form import HocSinhForm, ClassForm, SubjectForm
 
 # Create your views here.
 
@@ -73,9 +73,9 @@ def TiepnhanHS(request):
     context = {'form':form}
     return render(request, 'base/TiepnhanHS.html', context)
 
-
+# Class setting -----------
 def class_setting(request):
-    form = LopHocForm()
+    form = ClassForm()
     classInfo = LOPHOC.objects.all().values()
 
     if request.method=='POST':
@@ -94,7 +94,7 @@ def class_setting(request):
     return render(request, 'base/class_setting.html',context)
 
 def class_setting_delete(request, pk):
-    form = LopHocForm()
+    form = ClassForm()
     classRoom = LOPHOC.objects.filter(id=pk).values()
     classList = LOPHOC.objects.all().values()
 
@@ -111,7 +111,7 @@ def class_setting_delete(request, pk):
     return render(request, 'base/class_setting_delete.html',context)
 
 def class_setting_update(request, pk):
-    form = LopHocForm()
+    form = SubjectForm()
     classRoom = LOPHOC.objects.get(id=pk)
     classList = LOPHOC.objects.all().values()
 
@@ -133,3 +133,61 @@ def class_setting_update(request, pk):
         }
 
     return render(request, 'base/class_setting_update.html',context)
+
+# Subject setting -----------
+def subject_setting(request):
+    form = SubjectForm()
+    subjectInfo = MONHOC.objects.all().values()
+
+    if request.method=='POST':
+        MONHOC.objects.create(
+            TENMONHOC=request.POST.get('TENMONHOC'),
+            DIEMCHUAN=request.POST.get('DIEMCHUAN'),
+        )
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'classInfo':subjectInfo,
+        }
+
+    return render(request, 'base/subject_setting.html',context)
+
+def subject_setting_delete(request, pk):
+    form = SubjectForm()
+    subject = MONHOC.objects.filter(id=pk).values()
+    subjectList = MONHOC.objects.all().values()
+
+    if request.method=='POST':
+        MONHOC.objects.get(id=pk).delete()
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'subject':subject,
+        'subjectList':subjectList,
+        }
+
+    return render(request, 'base/subject_setting_delete.html',context)
+
+def subject_setting_update(request, pk):
+    form = SubjectForm()
+    subject = MONHOC.objects.get(id=pk)
+    subjectList = MONHOC.objects.all().values()
+
+    if request.method=='POST':
+        name = request.POST['TENMONHOC']
+        marks = request.POST['DIEMCHUAN']
+        subject = MONHOC.objects.get(id=pk)    
+        subject.TENMONHOC = name
+        subject.DIEMCHUAN = marks
+        subject.save()    
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'subject':subject,
+        'subjectList':subjectList,
+        }
+
+    return render(request, 'base/subject_setting_update.html',context)

@@ -68,7 +68,7 @@
     }
 
     .form-popup {
-    display: none;
+    display: auto;
     justify-content: center;
     }
 
@@ -96,26 +96,26 @@
     <div class="container">
         {% include 'base/topics_component.html' %}
         <div class = "roomList">
-            <h1 class="label">Quản lý lớp học</h3>
+            <h1 class="label">Quản lý môn học</h3>
             <div>
                 <div class="row">
-                    <button class="btn btn-outline-primary col-lg-11 btn--main" onclick="addClassForm();">Thêm lớp</button>
+                    <button class="btn btn-outline-primary col-lg-11 btn--main" disabled>Thêm lớp</button>
                 </div>
-                <table id="table" class="table table-sm">
+                <table id="table" class="table table-sm" style="pointer-events: none;">
                     <tr>
                         <th style="width:10%">STT</th>
-                        <th style="width:30%">Tên lớp</th>
-                        <th style="width:30%">Sĩ số tối đa</th>
+                        <th style="width:30%">Tên môn học</th>
+                        <th style="width:30%">Điểm chuẩn đạt môn</th>
                         <th style="width:30%">Điều chỉnh</th>
                     </tr>
-                    {% for x in classInfo %}
+                    {% for x in subjectList %}
                     <tr>
                         <td>{{ x.id }}</td>
-                        <td>{{ x.TENLOP }}</td>
-                        <td>{{ x.SISO }}</td>
+                        <td>{{ x.TENMONHOC }}</td>
+                        <td>{{ x.DIEMCHUAN }}</td>
                         <td> 
-                            <a class="modifyBtn" href="{% url 'class_setting_update' x.id %}"><i class="fa fa-edit"> </i> </a>
-                            <a class="deleteBtn" href="{% url 'class_setting_delete' x.id %}"><i class="fa fa-trash"> </i> </a>
+                            <button class="modifyBtn"> <i class="fa fa-edit"> </i> </button>
+                            <button class="deleteBtn"> <i class="fa fa-trash"> </i> </button>
                         </td>
                     </tr>
                     {% endfor %}
@@ -125,49 +125,44 @@
         </div>
         <div> </div> <!-- Ho tro can chinh flex--> 
     </div>
-
-    <!-- Add Class Pop Up -->
-    <div class="layout__box form-popup " id="addClassForm">
+    
+    <div class="layout__box form-popup">
         <div class="layout__boxHeader" style="justify-content: center;">
             <div class="layout__boxTitle">
-                <h3>Thêm lớp học</h3>
+                <h3>Xoá môn học</h3>
             </div>
         </div>
-        <div class="layout__body">
-            <form class="form" action="" method="POST">
-                {% csrf_token %}
-                <div class="form__group">
-                    <label for="tenlop">Tên lớp</label>
-                    {{form.TENLOP}}
-                </div>
-                <div class="form__group">
-                    <label for="siso">Sĩ số tối đa</label>
-                    {{form.SISO}}
-                </div>
-                <div class="form__group">
-                    <label for="nienkhoa">Niên khoá</label>
-                    {{form.NIENKHOA}}
-                </div>
-                <div class="form__action">
-                    <button type="button" class="btn btn--dark" onclick="closeAddClassForm()">Huỷ</button>
-                    <button class="btn btn--main" type="submit">Thêm</button>
-                </div>
-            </form>
-        </div>
-    </div>
+        <div class="layout__body" style="display: flex; justify-content: center; flex-direction: column;"> 
+            <div style="text-align: center; font-size: 1.5em;">Bạn có chắc muốn xoá môn:</div>
+            <div class="delete_container">
+                <table class="table">
+                    {% for x in subject %}
+                    <tr>
+                        <td class="delete_table_header">STT:</td>
+                        <td>{{ x.id }}</td>
+                    </tr>
+                    <tr>
+                        <td class="delete_table_header">Tên môn học:</td> 
+                        <td>{{ x.TENMONHOC }}</td>
+                    </tr>
+                    <tr>
+                        <td class="delete_table_header">Điểm chuẩn:</td> 
+                        <td>{{ x.DIEMCHUAN }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
 
+            <div style="display: flex; justify-content: center;">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <a class="btn btn--dark" href="/subject_setting/">Huỷ</a>
+                    <button class="btn btn--main" style="background-color:#FF4D4F !important;" type="submit">Xoá</button>
+                </form>
+            </div>
+        </div>
+    </div> 
 
 </main>
 
-<script>
-    function addClassForm() {
-        document.getElementById("addClassForm").style.display = "block";
-        document.getElementById("table").style.pointerEvents = "none";
-    }
-
-    function closeAddClassForm() {
-        document.getElementById("addClassForm").style.display = "none";
-        document.getElementById("table").style.pointerEvents = "auto";
-    }
-</script>
 {% endblock content %}
