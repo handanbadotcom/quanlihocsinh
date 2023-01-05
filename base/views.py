@@ -88,7 +88,6 @@ def searchStudent(request):
         name = request.POST.get('name')
         className = request.POST.get('class')
         classRoom = LOPHOC.objects.get(TENLOP=className)
-        
         try:
             student = HOCSINH.objects.get(HOTEN=name, LOPHOC=classRoom)
         except:
@@ -259,12 +258,12 @@ def lapDSlop(request, age_id):
 def class_setting(request):
     form = ClassForm()
     classInfo = LOPHOC.objects.all().values()
-
     if request.method=='POST':
+        print(request.POST)
         LOPHOC.objects.create(
             TENLOP=request.POST.get('TENLOP'),
             SISO=request.POST.get('SISO'),
-            NIENKHOA=request.POST.get('NIENKHOA'),
+            NIENKHOA_id=request.POST.get('NIENKHOA'),
         )
         return redirect('class_setting')
 
