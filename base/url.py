@@ -6,5 +6,9 @@ urlpatterns = [
     path('register/', views.registerPage, name='register'),
     path('logout/', views.logoutUser, name='logout'),
     path('',views.home,name = 'home'),
-    path('tiepnhanhs/', views.TiepnhanHS, name = 'TiepnhanHS')
+    path('tiepnhanhs/', views.TiepnhanHS, name = 'TiepnhanHS'),
+
+    path('class_setting/', views.class_setting, name = 'class_setting'),
+    path('class_setting/delete/<str:pk>', views.class_setting_delete, name='class_setting_delete'),
+    path('class_setting/update/<str:pk>', views.class_setting_update, name='class_setting_update'),
 ]

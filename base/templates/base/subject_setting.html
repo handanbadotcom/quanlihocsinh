@@ -1,0 +1,109 @@
+<style>
+    .table {
+    border:1px solid rgb(148, 148, 148);
+    width:100%;
+    border-collapse: collapse;
+    }
+
+    h1.label{
+        font-weight: 700;
+        font-size: 2rem;
+        color: var(--color-light);
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .roomList {
+        position: absolute;
+        top: 25%;
+        left: 0%;
+        width:50%;
+    }
+
+    tr {
+        height:40px;
+    }
+    th, td {
+        text-align: center;
+        border-bottom:1px solid rgb(148, 148, 148);
+    }
+
+
+    .btn {
+        position: ab;
+        
+        background-color: var(--color-main) !important;
+        color: var(--color-dark);
+    }
+    .row {
+        display: flex;
+        justify-content: flex-end;
+        margin: 10px 0px;
+    }
+</style>
+
+
+{% extends 'main.html' %}   
+
+{% block content %}
+
+<main class="create-room layout" style="justify-content: space-around;"> 
+    <div class="container" style ="gap: 50px;">
+        {% include 'base/topics_component.html' %}
+        <div class = "roomList">
+            <h1 class="label">Quản lý lớp học</h3>
+            <div class="card card-body shadow-lg">
+                <form method="get" class="main_form-header row">
+                   {% comment %} <div class="main_form_class col-lg-3">
+                        <div class="row">
+                            <div class="main_form_title col-lg-3">
+                                <p>Lớp</p>
+                            </div>
+                            <div class="main_form_select col-lg-6">
+                                <select id="class_select" class="form-select" aria-label="Default select example">
+                                    <option>Chọn lớp</option>
+                                    <!-- {% for class in classofuser %}
+                                            <option>{{ class.classId }}</option>
+                                        {% endfor %} -->
+                                    <option>10A1</option>
+                                    <option>10A2</option>
+                                    <option>10A3</option>
+                                    <option>10A4</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>  {% endcomment %}
+                    <div class="main_form_term col-lg-2">
+                        <div class="row">
+                            <button id='search' type="submit" class="btn btn-outline-primary col-lg-11">Thêm lớp</button>
+                        </div>
+                    </div>
+                </form>
+                <table class="table table-sm">
+                    <tr>
+                        <th>STT</th>
+                        <th>Tên lớp</th>
+                        <th>Sĩ số tối đa</th>
+                        <th>Điều chỉnh</th>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Class_name_var</td>
+                        <td>Number_of_pupils</td>
+                        <td>Two_Modify_button</td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Class_name_var</td>
+                        <td>Number_of_pupils</td>
+                        <td>Two_Modify_button</td>
+                    </tr>
+                </table>
+            </div>
+            <br>
+        </div>
+
+    </div>
+</main>
+
+{% endblock content %}

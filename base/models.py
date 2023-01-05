@@ -8,7 +8,9 @@ from django.db.models.deletion import CASCADE
 class LOPHOC(models.Model):
     TENLOP = models.CharField(max_length=30, null=False)
     SISO = models.IntegerField(null=False)
-    NIENKHOA = models.CharField(max_length=10, null=False)        
+    NIENKHOA = models.CharField(max_length=10, null=False)      
+    def __str__(self):
+        return self.TENLOP  
 
 class HOCSINH(models.Model):
     HOTEN = models.CharField(max_length=300)

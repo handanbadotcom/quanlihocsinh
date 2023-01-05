@@ -4,7 +4,7 @@ from django.contrib import messages
 from .models import  User, HOCSINH, LOPHOC
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
-from .form import HocSinhForm
+from .form import HocSinhForm, LopHocForm
 
 # Create your views here.
 
@@ -72,3 +72,64 @@ def TiepnhanHS(request):
         return redirect('home')
     context = {'form':form}
     return render(request, 'base/TiepnhanHS.html', context)
+
+
+def class_setting(request):
+    form = LopHocForm()
+    classInfo = LOPHOC.objects.all().values()
+
+    if request.method=='POST':
+        LOPHOC.objects.create(
+            TENLOP=request.POST.get('TENLOP'),
+            SISO=request.POST.get('SISO'),
+            NIENKHOA=request.POST.get('NIENKHOA'),
+        )
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classInfo':classInfo,
+        }
+
+    return render(request, 'base/class_setting.html',context)
+
+def class_setting_delete(request, pk):
+    form = LopHocForm()
+    classRoom = LOPHOC.objects.filter(id=pk).values()
+    classList = LOPHOC.objects.all().values()
+
+    if request.method=='POST':
+        LOPHOC.objects.get(id=pk).delete()
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classRoom':classRoom,
+        'classList':classList,
+        }
+
+    return render(request, 'base/class_setting_delete.html',context)
+
+def class_setting_update(request, pk):
+    form = LopHocForm()
+    classRoom = LOPHOC.objects.get(id=pk)
+    classList = LOPHOC.objects.all().values()
+
+    if request.method=='POST':
+        name = request.POST['TENLOP']
+        number = request.POST['SISO']
+        year = request.POST['NIENKHOA']
+        classRoom = LOPHOC.objects.get(id=pk)    
+        classRoom.TENLOP = name
+        classRoom.SISO = number
+        classRoom.NIENKHOA = year
+        classRoom.save()    
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classRoom':classRoom,
+        'classList':classList,
+        }
+
+    return render(request, 'base/class_setting_update.html',context)
