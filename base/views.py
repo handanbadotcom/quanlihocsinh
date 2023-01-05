@@ -7,7 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from .form import *
 from django.urls import reverse, reverse_lazy
 from django.db.models import Q
-from .models import  User, HOCSINH, LOPHOC, MONHOC
+from .models import  User, HOCSINH, LOPHOC, Subject
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .form import HocSinhForm, ClassForm, SubjectForm
@@ -124,7 +124,7 @@ def receiveTranscripts(request):
             message = 'Class does not exist!'
             
         students = HOCSINH.objects.filter(LOPHOC=classRoom)
-        subject = MONHOC.objects.get(name=subject)
+        subject = Subject.objects.get(name=subject)
         
         for student in students:
             grade = Grade.objects.get(student=student, subject=subject, semester=semester)
@@ -319,11 +319,11 @@ def class_setting_update(request, pk):
 # Subject setting -----------
 def subject_setting(request):
     form = SubjectForm()
-    subjectInfo = MONHOC.objects.all().values()
+    subjectInfo = Subject.objects.all().values()
 
     if request.method=='POST':
-        MONHOC.objects.create(
-            TENMONHOC=request.POST.get('TENMONHOC'),
+        Subject.objects.create(
+            TENSubject=request.POST.get('TENSubject'),
             DIEMCHUAN=request.POST.get('DIEMCHUAN'),
         )
         return redirect('subject_setting')
@@ -337,11 +337,11 @@ def subject_setting(request):
 
 def subject_setting_delete(request, pk):
     form = SubjectForm()
-    subject = MONHOC.objects.filter(id=pk).values()
-    subjectList = MONHOC.objects.all().values()
+    subject = Subject.objects.filter(id=pk).values()
+    subjectList = Subject.objects.all().values()
 
     if request.method=='POST':
-        MONHOC.objects.get(id=pk).delete()
+        Subject.objects.get(id=pk).delete()
         return redirect('subject_setting')
 
     context = {
@@ -354,14 +354,14 @@ def subject_setting_delete(request, pk):
 
 def subject_setting_update(request, pk):
     form = SubjectForm()
-    subject = MONHOC.objects.get(id=pk)
-    subjectList = MONHOC.objects.all().values()
+    subject = Subject.objects.get(id=pk)
+    subjectList = Subject.objects.all().values()
 
     if request.method=='POST':
-        name = request.POST['TENMONHOC']
+        name = request.POST['TENSubject']
         marks = request.POST['DIEMCHUAN']
-        subject = MONHOC.objects.get(id=pk)    
-        subject.TENMONHOC = name
+        subject = Subject.objects.get(id=pk)    
+        subject.TENSubject = name
         subject.DIEMCHUAN = marks
         subject.save()    
         return redirect('subject_setting')
