@@ -87,7 +87,6 @@ def searchStudent(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         className = request.POST.get('class')
-<<<<<<< HEAD
         
         while True:
             if name == '' or className == '':
@@ -118,7 +117,7 @@ def searchStudent(request):
                         iSemesterAVGs.append(subject.AVG)
                     avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
             break
-=======
+
         classRoom = LOPHOC.objects.get(TENLOP=className)
         try:
             student = HOCSINH.objects.get(HOTEN=name, LOPHOC=classRoom)
@@ -133,8 +132,6 @@ def searchStudent(request):
             for subject in iSemesterGrades:
                 iSemesterAVGs.append(subject.AVG)
             avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
-    
->>>>>>> 408b0148ab08e3253539a6c47de4462cc37c327e
     
     context = {'student': student, 'message': message, 'avg': avg}
     return render(request, 'base/search_student.html', context)
