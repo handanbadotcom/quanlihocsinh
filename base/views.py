@@ -108,16 +108,15 @@ def searchStudent(request):
                 print(message)
                 break
             
-            if message is None:
-                i = 1
-                while i <= 2:
-                    iSemesterGrades = Grade.objects.filter(student=student, semester=i)
-                    print(iSemesterGrades)
-                    iSemesterAVGs = []
-                    i+=1
-                    for subject in iSemesterGrades:
-                        iSemesterAVGs.append(subject.AVG)
-                    avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
+            i = 1
+            while i <= 2:
+                iSemesterGrades = Grade.objects.filter(student=student, semester=i)
+                print(iSemesterGrades)
+                iSemesterAVGs = []
+                i+=1
+                for subject in iSemesterGrades:
+                    iSemesterAVGs.append(subject.AVG)
+                avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
             break
 
         classRoom = LOPHOC.objects.get(TENLOP=className)
@@ -178,16 +177,15 @@ def receiveTranscripts(request):
             students = HOCSINH.objects.filter(LOPHOC=classRoom)
             print(students)
             
-            if message is None: 
-                students = HOCSINH.objects.filter(LOPHOC=classRoom)
-                
-                for student in students:
-                    try:
-                        grade = Grade.objects.get(student=student, subject=subject, semester=semester)
-                        grades.append(grade)
-                    except:                     
-                        grades.append(0)
-                        continue
+            students = HOCSINH.objects.filter(LOPHOC=classRoom)
+            
+            for student in students:
+                try:
+                    grade = Grade.objects.get(student=student, subject=subject, semester=semester)
+                    grades.append(grade)
+                except:                     
+                    grades.append(0)
+                    continue
             break
     
     context = {'message': message, 'students': students, 'grades': grades}
