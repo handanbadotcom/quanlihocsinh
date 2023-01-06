@@ -118,6 +118,22 @@ def searchStudent(request):
                     iSemesterAVGs.append(subject.AVG)
                     avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
             break
+
+        classRoom = LOPHOC.objects.get(TENLOP=className)
+        try:
+            student = HOCSINH.objects.get(HOTEN=name, LOPHOC=classRoom)
+        except:
+            message = 'Student does not exist!'
+            print(message)
+        i = 1
+        while i <= 2:
+            iSemesterGrades = Grade.objects.filter(student=student, semester=i)
+            print(iSemesterGrades)
+            iSemesterAVGs = []
+            i+=1
+            for subject in iSemesterGrades:
+                iSemesterAVGs.append(subject.AVG)
+            avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
     
     context = {'student': student, 'message': message, 'avg': avg}
     return render(request, 'base/search_student.html', context)
