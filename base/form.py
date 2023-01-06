@@ -1,11 +1,13 @@
+
 from django.forms import ModelForm, forms
 from .models import *
+from .models import HOCSINH, LOPHOC, Subject
+
 
 class HocSinhForm(ModelForm):
     class Meta:
         model = HOCSINH
         fields = '__all__'
-
 
 class ageForm(ModelForm):
     class Meta:
@@ -29,3 +31,14 @@ class YearForm(ModelForm):
     class Meta:
         model = Age
         fields = ['year']
+
+
+class ClassForm(ModelForm):
+    class Meta:
+        model = LOPHOC
+        fields = '__all__'
+
+class SubjectForm(ModelForm):
+    class Meta:
+        model = Subject
+        fields = '__all__'

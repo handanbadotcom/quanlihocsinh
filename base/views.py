@@ -6,7 +6,11 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
 from .form import *
 from django.urls import reverse, reverse_lazy
-
+from django.db.models import Q
+from .models import  User, HOCSINH, LOPHOC, Subject
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.forms import UserCreationForm
+from .form import HocSinhForm, ClassForm, SubjectForm
 
 # Create your views here.
 
@@ -83,6 +87,7 @@ def searchStudent(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         className = request.POST.get('class')
+<<<<<<< HEAD
         
         while True:
             if name == '' or className == '':
@@ -113,6 +118,23 @@ def searchStudent(request):
                         iSemesterAVGs.append(subject.AVG)
                     avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
             break
+=======
+        classRoom = LOPHOC.objects.get(TENLOP=className)
+        try:
+            student = HOCSINH.objects.get(HOTEN=name, LOPHOC=classRoom)
+        except:
+            message = 'Student does not exist!'
+        i = 1
+        while i <= 2:
+            iSemesterGrades = Grade.objects.filter(student=student, semester=i)
+            print(iSemesterGrades)
+            iSemesterAVGs = []
+            i+=1
+            for subject in iSemesterGrades:
+                iSemesterAVGs.append(subject.AVG)
+            avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
+    
+>>>>>>> 408b0148ab08e3253539a6c47de4462cc37c327e
     
     context = {'student': student, 'message': message, 'avg': avg}
     return render(request, 'base/search_student.html', context)
@@ -255,28 +277,151 @@ def nienkhoa(request):
 
 
 def lapDSlop(request, age_id):
-    lophoc = LOPHOC.objects.all
-    hs = HOCSINH.objects.all
+    lophoc = LOPHOC.objects.all()
+    hs = HOCSINH.objects.all()
     if request.method == 'POST':
-        usernames = request.POST.getlist('username_class')
-        cl = request.POST.get('TENLOP')
+        usernames = request.POST.getlist('HOTEN')
+        cl = request.POST.get('lop')
         class_list = LOPHOC.objects.all()
-        for lop in class_list:
-            if lop.TENLOP == cl:
-                studentsInClass = HOCSINH.objects.filter(lop__TENLOP=cl)
-                if lop.max_number >= (len(studentsInClass) + len(usernames)):
-                    for username in usernames:
-                        student = HOCSINH.objects.get(user__username=username)
-                        student.LOPHOC.add(lop)
-                        student.save()
+        print(usernames)
+        studentsInClass = HOCSINH.objects.filter(LOPHOC__TENLOP=cl)
+        LOP = LOPHOC.objects.get(TENLOP=cl)
+        if LOP.SISO >= (len(studentsInClass) + len(usernames)):
+           for username in usernames:
+                    student = HOCSINH.objects.get(HOTEN=username)
+                    student.LOPHOC=LOP
+                    student.save()
                     messages.success(request, "Thêm thành công")
-                    return redirect(reverse('lapDSLop', kwargs={'age_id': age_id}))
-                else:
+                   # return redirect(reverse('lapDSLop', kwargs={'age_id': age_id}))
+        else:
                     messages.success(request, "Số lượng học sinh vượt quá qui định")
+
+
     context = {
         'students': hs,
         'lop': lophoc
     }
     return render(request, 'base/lapDSlop.html', context=context)
 
+# Class setting -----------
+def class_setting(request):
+    form = ClassForm()
+    classInfo = LOPHOC.objects.all().values()
+    if request.method=='POST':
+        print(request.POST)
+        LOPHOC.objects.create(
+            TENLOP=request.POST.get('TENLOP'),
+            SISO=request.POST.get('SISO'),
+            NIENKHOA_id=request.POST.get('NIENKHOA'),
+        )
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classInfo':classInfo,
+        }
+
+    return render(request, 'base/class_setting.html',context)
+
+def class_setting_delete(request, pk):
+    form = ClassForm()
+    classRoom = LOPHOC.objects.filter(id=pk).values()
+    classList = LOPHOC.objects.all().values()
+
+    if request.method=='POST':
+        LOPHOC.objects.get(id=pk).delete()
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classRoom':classRoom,
+        'classList':classList,
+        }
+
+    return render(request, 'base/class_setting_delete.html',context)
+
+def class_setting_update(request, pk):
+    form = SubjectForm()
+    classRoom = LOPHOC.objects.get(id=pk)
+    classList = LOPHOC.objects.all().values()
+
+    if request.method=='POST':
+        print(request.POST)
+        name = request.POST['TENLOP']
+        number = request.POST['SISO']
+        Year = request.POST['NIENKHOA']
+        classRoom = LOPHOC.objects.get(id=pk)    
+        classRoom.TENLOP = name
+        classRoom.SISO = number
+        classRoom.NIENKHOA = Age.objects.get(year=Year)
+        classRoom.save()    
+        return redirect('class_setting')
+
+    context = {
+        'form':form,
+        'classRoom':classRoom,
+        'classList':classList,
+        }
+
+    return render(request, 'base/class_setting_update.html',context)
+
+# Subject setting -----------
+def subject_setting(request):
+    form = SubjectForm()
+    subjectInfo = Subject.objects.all().values()
+
+    if request.method=='POST':
+        print(request.POST)
+        Subject.objects.create(
+            name=request.POST.get('name'),
+            DIEMCHUAN=request.POST.get('DIEMCHUAN'),
+        )
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'classInfo':subjectInfo,
+        }
+
+    return render(request, 'base/subject_setting.html',context)
+
+def subject_setting_delete(request, pk):
+    form = SubjectForm()
+    subject = Subject.objects.filter(id=pk).values()
+    subjectList = Subject.objects.all().values()
+
+    if request.method=='POST':
+        Subject.objects.get(id=pk).delete()
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'subject':subject,
+        'subjectList':subjectList,
+        }
+
+    return render(request, 'base/subject_setting_delete.html',context)
+
+def subject_setting_update(request, pk):
+    form = SubjectForm()
+    subject = Subject.objects.get(id=pk)
+    subjectList = Subject.objects.all().values()
+
+    if request.method=='POST':
+        print(request.POST)
+        name = request.POST['TENMONHOC']
+        marks = request.POST['DIEMCHUAN']
+        subject = Subject.objects.get(id=pk)    
+        subject.name = name
+        subject.DIEMCHUAN = marks
+        subject.save()    
+        return redirect('subject_setting')
+
+    context = {
+        'form':form,
+        'subject':subject,
+        'subjectList':subjectList,
+        }
+
+    return render(request, 'base/subject_setting_update.html',context)
 
