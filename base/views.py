@@ -91,18 +91,21 @@ def searchStudent(request):
         while True:
             if name == '' or className == '':
                 message = 'Vui lòng nhập đầy đủ thông tin!'
+                print(message)
                 break
             
             try:
                 classRoom = LOPHOC.objects.get(TENLOP=className)
             except:
                 message = 'Lớp học không tồn tại!'
+                print(message)
                 break
             
             try:
                 student = HOCSINH.objects.get(HOTEN=name, LOPHOC=classRoom)
             except:
                 message = 'Học sinh không tồn tại!'
+                print(message)
                 break
             
             if message is None:
@@ -116,6 +119,22 @@ def searchStudent(request):
                         iSemesterAVGs.append(subject.AVG)
                     avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
             break
+
+        classRoom = LOPHOC.objects.get(TENLOP=className)
+        try:
+            student = HOCSINH.objects.get(HOTEN=name, LOPHOC=classRoom)
+        except:
+            message = 'Student does not exist!'
+            print(message)
+        i = 1
+        while i <= 2:
+            iSemesterGrades = Grade.objects.filter(student=student, semester=i)
+            print(iSemesterGrades)
+            iSemesterAVGs = []
+            i+=1
+            for subject in iSemesterGrades:
+                iSemesterAVGs.append(subject.AVG)
+            avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
     
     context = {'student': student, 'message': message, 'avg': avg}
     return render(request, 'base/search_student.html', context)
@@ -130,7 +149,7 @@ def receiveTranscripts(request):
         className = request.POST.get('class')
         subject = request.POST.get('subject')
         semester = request.POST.get('semester')
-        
+        print(request.POST)
         while True:
             if className == '' or subject == '' or semester == '':
                 message = 'Vui lòng nhập đầy đủ thông tin!'
@@ -142,15 +161,22 @@ def receiveTranscripts(request):
                 
             try:
                 classRoom = LOPHOC.objects.get(TENLOP=className)
+                print(classRoom)
             except:
                 message = 'Lớp học không tồn tại!'
+                print(message)
                 break
                 
             try:
                 subject = Subject.objects.get(name=subject)
+                print(subject)
             except:
                 message = 'Môn học không tồn tại!'
+                print(message)
                 break
+                
+            students = HOCSINH.objects.filter(LOPHOC=classRoom)
+            print(students)
             
             if message is None: 
                 students = HOCSINH.objects.filter(LOPHOC=classRoom)
@@ -272,6 +298,7 @@ def lapDSlop(request, age_id):
         print(usernames)
         studentsInClass = HOCSINH.objects.filter(LOPHOC__TENLOP=cl)
         LOP = LOPHOC.objects.get(TENLOP=cl)
+        print(len(studentsInClass) + len(usernames))
         if LOP.SISO >= (len(studentsInClass) + len(usernames)):
            for username in usernames:
                     student = HOCSINH.objects.get(HOTEN=username)
