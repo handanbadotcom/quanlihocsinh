@@ -297,13 +297,14 @@ def class_setting_update(request, pk):
     classList = LOPHOC.objects.all().values()
 
     if request.method=='POST':
+        print(request.POST)
         name = request.POST['TENLOP']
         number = request.POST['SISO']
-        year = request.POST['NIENKHOA']
+        Year = request.POST['NIENKHOA']
         classRoom = LOPHOC.objects.get(id=pk)    
         classRoom.TENLOP = name
         classRoom.SISO = number
-        classRoom.NIENKHOA = year
+        classRoom.NIENKHOA = Age.objects.get(year=Year)
         classRoom.save()    
         return redirect('class_setting')
 
@@ -321,8 +322,9 @@ def subject_setting(request):
     subjectInfo = Subject.objects.all().values()
 
     if request.method=='POST':
+        print(request.POST)
         Subject.objects.create(
-            TENSubject=request.POST.get('TENSubject'),
+            name=request.POST.get('name'),
             DIEMCHUAN=request.POST.get('DIEMCHUAN'),
         )
         return redirect('subject_setting')
@@ -357,10 +359,11 @@ def subject_setting_update(request, pk):
     subjectList = Subject.objects.all().values()
 
     if request.method=='POST':
-        name = request.POST['TENSubject']
+        print(request.POST)
+        name = request.POST['TENMONHOC']
         marks = request.POST['DIEMCHUAN']
         subject = Subject.objects.get(id=pk)    
-        subject.TENSubject = name
+        subject.name = name
         subject.DIEMCHUAN = marks
         subject.save()    
         return redirect('subject_setting')
