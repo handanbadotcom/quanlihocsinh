@@ -82,7 +82,7 @@
     }
     .update_table_header {
         text-align: left; 
-        padding-left: 50px; 
+        padding-left: 40px; 
         width: 50%;
         font-weight: bold;
     }
@@ -140,21 +140,21 @@
                 <h3>Chỉnh sửa môn học</h3>
             </div>
         </div>
-        <div class="layout__body" style="display: flex; justify-content: center; flex-direction: column;"> 
+        <div class="layout__body" style="display: flex; justify-content: center; flex-direction: column; padding:30px;"> 
             <div style="text-align: center; font-size: 1.5em;">Thông tin môn học:</div>
                 <form action="" method="post">
                     <div class="update_container">
                             <table class="table">
                                 <tr>
-                                    <td class="update_table_header">STT:</td>
+                                    <td class="update_table_header" style="width: 55%;">STT:</td>
                                     <td>{{ subject.id }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="update_table_header">Tên môn học:</td> 
-                                    <td style="justify-content: center;"><input class="updateField" name="TENMONHOC" type="text" value="{{ subject.TENMONHOC }}"></td>
+                                    <td class="update_table_header" style="width: 55%;">Tên môn học:</td> 
+                                    <td style="justify-content: center;"><input class="updateField" name="TENMONHOC" type="text" value="{{ subject.name }}"></td>
                                 </tr>
                                 <tr>
-                                    <td class="update_table_header">Sĩ số tối đa:</td> 
+                                    <td class="update_table_header" style="width: 55%;">Điểm chuẩn đạt môn:</td> 
                                     <td style="justify-content: center;"><input class="updateField" name="DIEMCHUAN" type="number" value="{{ subject.DIEMCHUAN }}"></td>
                                 </tr>
                             </table>

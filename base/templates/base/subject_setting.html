@@ -133,14 +133,14 @@
                 <h3>Thêm môn học</h3>
             </div>
         </div>
-        <div class="layout__body">
+        <div class="layout__body" style="padding: 20px;">
             <form class="form" action="" method="POST">
                 {% csrf_token %}
-                <div class="form__group">
+                <div class="form__group"style="padding: 10px 0px;">
                     <label for="tenmonhoc">Tên môn học</label>
                     {{form.name}}
                 </div>
-                <div class="form__group">
+                <div class="form__group"style="padding: 10px 0px;">
                     <label for="diemchuan">Điểm chuẩn đạt môn</label>
                     {{form.DIEMCHUAN}}
                 </div>

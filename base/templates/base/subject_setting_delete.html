@@ -82,7 +82,7 @@
     }
     .delete_table_header {
         text-align: left; 
-        padding-left: 50px; 
+        padding-left: 40px; 
         width: 50%;
         font-weight: bold;
     }
@@ -132,21 +132,21 @@
                 <h3>Xoá môn học</h3>
             </div>
         </div>
-        <div class="layout__body" style="display: flex; justify-content: center; flex-direction: column;"> 
+        <div class="layout__body" style="display: flex; justify-content: center; flex-direction: column; padding:30px;"> 
             <div style="text-align: center; font-size: 1.5em;">Bạn có chắc muốn xoá môn:</div>
             <div class="delete_container">
                 <table class="table">
                     {% for x in subject %}
                     <tr>
-                        <td class="delete_table_header">STT:</td>
+                        <td class="delete_table_header" style="width: 55%;">STT:</td>
                         <td>{{ x.id }}</td>
                     </tr>
                     <tr>
-                        <td class="delete_table_header">Tên môn học:</td> 
-                        <td>{{ x.TENMONHOC }}</td>
+                        <td class="delete_table_header" style="width: 55%;">Tên môn học:</td> 
+                        <td>{{ x.name }}</td>
                     </tr>
                     <tr>
-                        <td class="delete_table_header">Điểm chuẩn:</td> 
+                        <td class="delete_table_header" style="width: 55%;">Điểm chuẩn đạt môn:</td> 
                         <td>{{ x.DIEMCHUAN }}</td>
                     </tr>
                     {% endfor %}
