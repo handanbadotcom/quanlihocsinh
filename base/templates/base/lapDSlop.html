@@ -51,6 +51,7 @@
                                 <th>Ngày sinh</th>
                                 <th>Giới tính</th>
                                 <th>Email</th>
+                                <th>Lớp</th>
                                 <th>lựa chọn</th>
                             </tr>
                                 {% for hs in students  %}
@@ -64,6 +65,7 @@
                                         <td>Nữ</td>
                                     {%endif%}
                                     <td>{{hs.EMAIL}}</td>
+                                    <td>{{hs.LOPHOC}}</td>
                                     <td>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" value='{{hs.HOTEN}}'id ="{{ hs.HOTEN }}" name="HOTEN">
