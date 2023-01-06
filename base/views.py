@@ -420,3 +420,23 @@ def subject_setting_update(request, pk):
 
     return render(request, 'base/subject_setting_update.html',context)
 
+def nhapdiem(request):
+    form=GradeForm()
+    if request.method=='POST':
+        print(request.POST)
+        hs=HOCSINH.objects.get(id=request.POST.get('student'))
+        sb=Subject.objects.get(id=request.POST.get('subject'))
+        print(hs)
+        print(sb)
+        Grade.objects.create(
+            student =hs,
+            subject = sb,
+            gr15m = request.POST.get('gr15m'),
+            gr45m = request.POST.get('gr45m'),
+            grExam = request.POST.get('grExam'),
+            semester = request.POST.get('semester')
+        )
+        return redirect('home')
+    context = {'form':form}
+    return render(request, 'base/NhapDiem.html', context)
+

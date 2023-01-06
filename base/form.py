@@ -1,7 +1,6 @@
 
 from django.forms import ModelForm, forms
 from .models import *
-from .models import HOCSINH, LOPHOC, Subject
 
 
 class HocSinhForm(ModelForm):
@@ -41,4 +40,9 @@ class ClassForm(ModelForm):
 class SubjectForm(ModelForm):
     class Meta:
         model = Subject
+        fields = '__all__'
+
+class GradeForm(ModelForm):
+     class Meta:
+        model = Grade
         fields = '__all__'
