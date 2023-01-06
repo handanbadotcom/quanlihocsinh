@@ -108,15 +108,18 @@ def searchStudent(request):
                 print(message)
                 break
             
+            
+                         
             i = 1
-            while i <= 2:
-                iSemesterGrades = Grade.objects.filter(student=student, semester=i)
-                print(iSemesterGrades)
+            while i <= 2:      
+                iSemesterGrades = Grade.objects.filter(student=student, semester=i)         
                 iSemesterAVGs = []
                 i+=1
-                for subject in iSemesterGrades:
-                    iSemesterAVGs.append(subject.AVG)
-                avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
+                if not iSemesterGrades: avg.append(0)
+                else:
+                    for subject in iSemesterGrades:
+                        iSemesterAVGs.append(subject.AVG)
+                    avg.append(round(sum(iSemesterAVGs)/len(iSemesterAVGs), 1))
             break
 
     context = {'student': student, 'message': message, 'avg': avg}
