@@ -132,7 +132,7 @@
                 <h3>Xoá lớp học</h3>
             </div>
         </div>
-        <div class="layout__body" style="display: flex; justify-content: center; flex-direction: column;"> 
+        <div class="layout__body" style="display: flex; justify-content: center; flex-direction: column; padding:30px;"> 
             <div style="text-align: center; font-size: 1.5em;">Bạn có chắc muốn xoá lớp:</div>
             <div class="delete_container">
                 <table class="table">
@@ -148,10 +148,6 @@
                     <tr>
                         <td class="delete_table_header">Sĩ số tối đa:</td> 
                         <td>{{ x.SISO }}</td>
-                    </tr>
-                    <tr>
-                        <td class="delete_table_header">Niên khoá:</td> 
-                        <td>{{ x.NIENKHOA }}</td>
                     </tr>
                     {% endfor %}
                 </table>

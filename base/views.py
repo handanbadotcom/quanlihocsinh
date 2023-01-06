@@ -335,11 +335,9 @@ def class_setting_update(request, pk):
         print(request.POST)
         name = request.POST['TENLOP']
         number = request.POST['SISO']
-        Year = request.POST['NIENKHOA']
         classRoom = LOPHOC.objects.get(id=pk)    
         classRoom.TENLOP = name
         classRoom.SISO = number
-        classRoom.NIENKHOA = Age.objects.get(year=Year)
         classRoom.save()    
         return redirect('class_setting')
 
