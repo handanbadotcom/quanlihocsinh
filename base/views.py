@@ -480,6 +480,8 @@ def tongketmon(request):
 
                 dict ={
                     'class':classRoom,
+                    'siso':len(students),
+                    'sldat':soluongdat,
                     'dat': tiledat*100
                 }
                 output.append(dict)
@@ -531,6 +533,7 @@ def tongkethocki(request):
 
                 dict ={
                     'subject':subject,
+                    'sldat':soluongdat,
                     'dat': tiledat*100
                 }
                 output.append(dict)

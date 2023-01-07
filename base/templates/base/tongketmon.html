@@ -50,15 +50,15 @@
                     <th>STT</th>
                     <th>Lớp</th>
                     <th>Sỉ số</th>
-                    <th>Niên khoá</th>
+                    <th>Số lượng đạt</th>
                     <th>Tỉ lệ đạt</th>
                 </tr>
                 {% for out in output %}            
                 <tr>
                     <td>{{forloop.counter}}</td>
                     <td>{{out.class}}</td>
-                    <td>{{out.class.SISO}}</td>
-                    <td>{{out.class.NIENKHOA}}</td>
+                    <td>{{out.siso}}</td>
+                    <td>{{out.sldat}}</td>
                     <td>{{out.dat}}%</td>  
                 </tr>
                 {% endfor %}

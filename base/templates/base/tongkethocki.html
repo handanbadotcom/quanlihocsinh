@@ -49,12 +49,14 @@
                 <tr>
                     <th>STT</th>
                     <th>Môn học</th>
+                    <th>Số lượng đat</th>
                     <th>Tỉ lệ đạt</th>
                 </tr>
                 {% for out in output %}            
                 <tr>
                     <td>{{forloop.counter}}</td>
                     <td>{{out.subject}}</td>
+                    <td>{{out.sldat}}</td>
                     <td>{{out.dat}}%</td>  
                 </tr>
                 {% endfor %}
