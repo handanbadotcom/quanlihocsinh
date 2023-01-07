@@ -75,7 +75,7 @@ def TiepnhanHS(request):
             NGAYSINH= request.POST.get('NGAYSINH'),
             EMAIL= request.POST.get('EMAIL'),
         )
-        return redirect('home')
+        #return redirect('home')
     context = {'form':form}
     return render(request, 'base/TiepnhanHS.html', context)
 
@@ -436,7 +436,7 @@ def nhapdiem(request):
             grExam = request.POST.get('grExam'),
             semester = request.POST.get('semester')
         )
-        return redirect('home')
+        #return redirect('home')
     context = {'form':form}
     return render(request, 'base/NhapDiem.html', context)
 

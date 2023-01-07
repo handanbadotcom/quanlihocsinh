@@ -25,9 +25,7 @@ SECRET_KEY = 'django-insecure-5ds9^c_ptf#v8o+(2^u9e9zl%aqe3bqc^7sf-lduw^9q2uww0i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS =['67bb-2001-ee0-5208-bc20-60e0-158-d4f4-d94b.ap.ngrok.io']
 
-CSRF_TRUSTED_ORIGINS =['https://67bb-2001-ee0-5208-bc20-60e0-158-d4f4-d94b.ap.ngrok.io']
 
 
 
@@ -136,3 +134,7 @@ MEDIA_ROOT = BASE_DIR / 'static/images'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ALLOWED_HOSTS=['0f56-2001-ee0-5208-bc20-1144-b646-ebaa-2a66.ap.ngrok.io','127.0.0.1']
+
+CSRF_TRUSTED_ORIGINS=['https://0f56-2001-ee0-5208-bc20-1144-b646-ebaa-2a66.ap.ngrok.io']
