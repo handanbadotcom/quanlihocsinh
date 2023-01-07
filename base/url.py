@@ -26,5 +26,7 @@ urlpatterns = [
     path('subject_setting/delete/<str:pk>', views.subject_setting_delete, name='subject_setting_delete'),
     path('subject_setting/update/<str:pk>', views.subject_setting_update, name='subject_setting_update'),
     path('nhapdiem/', views.nhapdiem, name = 'nhapdiem'),
+    path('tongketmon/', views.tongketmon, name = 'tongketmon'),
+    path('tongkethocki/', views.tongkethocki, name = 'tongkethocki'),
 ]
 

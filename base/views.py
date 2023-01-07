@@ -440,3 +440,103 @@ def nhapdiem(request):
     context = {'form':form}
     return render(request, 'base/NhapDiem.html', context)
 
+def tongketmon(request):
+    message = None
+    classes = LOPHOC.objects.all()
+    output=[]
+    if request.method == 'POST':
+        subject = request.POST.get('subject')
+        semester = request.POST.get('semester')
+        while True:
+            if  subject == '' or semester == '':
+                message = 'Vui lòng nhập đầy đủ thông tin!'
+                break
+            
+            if semester != '1' and semester != '2':
+                message = 'Chỉ có học kỳ I hoặc học kỳ II'
+                break
+                
+            try:
+                subject = Subject.objects.get(name=subject)
+            except:
+                message = 'Môn học không tồn tại!'
+                break
+
+            for classRoom in classes:   
+                soluongdat=0 
+                tiledat=0
+                students = HOCSINH.objects.filter(LOPHOC=classRoom)
+                for student in students:
+                    try:
+                        grade = Grade.objects.get(student=student, subject=subject, semester=semester)
+                        if grade.AVG>=subject.DIEMCHUAN:
+                            soluongdat+=1
+                    except:                     
+                        continue
+                if len(students)>0:
+                    tiledat=soluongdat/len(students)
+                else:
+                    tiledat=0
+
+                dict ={
+                    'class':classRoom,
+                    'dat': tiledat*100
+                }
+                output.append(dict)
+                #print(classRoom,':',tiledat*100)
+            break
+    
+    context = {'message': message, 'output':output}
+    return render(request, 'base/tongketmon.html', context)
+
+def tongkethocki(request):
+    message = None
+    subjects = Subject.objects.all()
+    output=[]
+    if request.method == 'POST':
+        className = request.POST.get('class')
+        semester = request.POST.get('semester')
+        while True:
+            if className == '' or semester == '':
+                message = 'Vui lòng nhập đầy đủ thông tin!'
+                break
+            
+            if semester != '1' and semester != '2':
+                message = 'Chỉ có học kỳ I hoặc học kỳ II'
+                break
+                
+            try:
+                classRoom = LOPHOC.objects.get(TENLOP=className)
+                print(classRoom)
+            except:
+                message = 'Lớp học không tồn tại!'
+                print(message)
+                break
+
+            for subject in subjects:   
+                soluongdat=0 
+                tiledat=0
+                students = HOCSINH.objects.filter(LOPHOC=classRoom)
+                for student in students:
+                    try:
+                        grade = Grade.objects.get(student=student, subject=subject, semester=semester)
+                        if grade.AVG>=subject.DIEMCHUAN:
+                            soluongdat+=1
+                    except:                     
+                        continue
+                if len(students)>0:
+                    tiledat=soluongdat/len(students)
+                else:
+                    tiledat=0
+
+                dict ={
+                    'subject':subject,
+                    'dat': tiledat*100
+                }
+                output.append(dict)
+                print(subject,':',tiledat*100)
+            break
+    
+    context = {'message': message, 'output':output}
+    return render(request, 'base/tongkethocki.html', context)
+
