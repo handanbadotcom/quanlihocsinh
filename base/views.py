@@ -273,7 +273,7 @@ def nienkhoa(request):
 
 
 def lapDSlop(request, age_id):
-    lophoc = LOPHOC.objects.all()
+    lophoc = LOPHOC.objects.filter(NIENKHOA=age_id)
     hs = HOCSINH.objects.all()
     if request.method == 'POST':
         usernames = request.POST.getlist('HOTEN')
